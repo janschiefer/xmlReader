@@ -22,8 +22,8 @@ int main() {
 	squishyXMLDocument doc( myContext, filename, std::string_view("") , XML_PARSE_DTDATTR );
 
 
-	if (doc.ptr == NULL) cout << "Failed to parse " << filename << endl;
-	else if (myContext.ptr->valid == 0) cout << "Failed to validate " << filename << endl;
+	if (doc.getPointer() == NULL) cout << "Failed to parse " << filename << endl;
+	else if (myContext.getPointer()->valid == 0) cout << "Failed to validate " << filename << endl;
 	else {
 		cout << "XML File sucessfuly loaded:    " << filename << endl;
 	}
@@ -32,7 +32,7 @@ int main() {
 
 	squishyXMLNode rootElement;
 
-	if( doc.getRootElement( rootElement ) ) cout << "Successfully got root element." << endl;
+	if( rootElement.setToDocRootElement( doc )) cout << "Successfully got root element." << endl;
 
 	std::string theProperty;
 
@@ -60,7 +60,7 @@ int main() {
 
 	cout << "Child element 2 attribute: " << childAttr2 << endl;
 
-	if( childElement.setNodeContent( "TEST CONTENT ") ) cout << "Successfully set child node 1 content." << endl;
+	if( childElement.setNodeContent( "TEST CONTENT") ) cout << "Successfully set child node 1 content." << endl;
 
 	if( vector_childElements.front().setNodeProperty( "TEST" , "ATTRIBUTE") ) cout << "Successfully set child node 2 property." << endl;
 
@@ -73,7 +73,7 @@ int main() {
 	if( vector_childElements.front().setNodeProperties( test_properties ) ) cout << "Successfully set child node 2 properties as map." << endl;
 
 
-	squishyXMLNode singleNode( NULL, "TESTNODE");
+	squishyXMLNode singleNode(NULL, "TESTNODE", doc, false );
 
 	singleNode.setNodeContent("My Content");
 
